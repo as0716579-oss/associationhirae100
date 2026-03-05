@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @font-face {
+            font-family: 'Cairo';
+            src: url('{{ font_uri }}');
+        }
+
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            direction: rtl;
+            color: #1c1e21;
+            line-height: 1.6;
+            font-size: 11pt;
+            background: #fff;
+            padding: 20mm;
+        }
+
+        .pdf-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #1a5e3a;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+
+        .header-info {
+            width: 70%;
+        }
+
+        .logo-container {
+            width: 30%;
+            text-align: left;
+        }
+
+        .logo {
+            height: 70px;
+        }
+
+        .association-name {
+            font-size: 18pt;
+            color: #1a5e3a;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .association-address {
+            font-size: 9pt;
+            color: #666;
+        }
+
+        .official-title {
+            text-align: center;
+            font-size: 20pt;
+            color: #1a5e3a;
+            margin: 40px 0 20px;
+            text-decoration: underline;
+        }
+
+        .ref-box {
+            text-align: left;
+            margin-bottom: 30px;
+            font-size: 10pt;
+            color: #444;
+        }
+
+        .decision-content {
+            background: #fdfdfd;
+            border: 1px solid #eee;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+        }
+
+        .decision-text {
+            font-size: 14pt;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .status-accepted {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status-rejected {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .visitor-data-section {
+            margin-top: 40px;
+        }
+
+        .section-header {
+            background: #f5f5f5;
+            padding: 8px 15px;
+            font-weight: bold;
+            border-right: 4px solid #1a5e3a;
+            margin-bottom: 15px;
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .data-item {
+            font-size: 10pt;
+        }
+
+        .data-label {
+            font-weight: bold;
+            color: #1a5e3a;
+        }
+
+        .pdf-footer {
+            margin-top: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .signature-area {
+            text-align: center;
+            width: 250px;
+        }
+
+        .stamp {
+            height: 100px;
+            margin-bottom: 10px;
+        }
+
+        .qr-code {
+            height: 80px;
+        }
+
+        .electronic-footer {
+            position: absolute;
+            bottom: 20mm;
+            left: 20mm;
+            right: 20mm;
+            text-align: center;
+            font-size: 8pt;
+            color: #999;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="pdf-header">
+        <div class="header-info">
+            <div class="association-name">جمعية حراء للأعمال الاجتماعية</div>
+            <div class="association-address">المقر المركزي - المملكة المغربية</div>
+        </div>
+        <div class="logo-container">
+            <img src="{{ logo_uri }}" alt="Logo" class="logo">
+        </div>
+    </header>
+
+    <div class="ref-box">
+        <strong>الرقم المرجعي:</strong> {{ req.tracking_id }}<br>
+        <strong>تاريخ القرار:</strong> {{ req.decision_date.strftime('%Y-%m-%d') if req.decision_date else date }}
+    </div>
+
+    <h1 class="official-title">إشعار بخصوص طلب الاستفادة</h1>
+
+    <div class="decision-content">
+        <p class="decision-text">
+            إلى السيد(ة): <strong>{{ req.first_name }} {{ req.last_name }}</strong>،
+        </p>
+
+        {% if req.status == 'accepted' %}
+        <div class="status-badge status-accepted">الحالة: مقبول ✅</div>
+        <p class="decision-text">
+            يسرنا إبلاغكم بأنه، وبعد دراسة طلبكم المسجل لدينا، قد تمت الموافقة على استفادتكم من <strong>{{
+                req.request_type }}</strong>.
+            نهنئكم بهذا القبول ونتمنى لكم شهراً مباركاً.
+        </p>
+        {% elif req.status == 'rejected' %}
+        <div class="status-badge status-rejected">الحالة: مرفوض ❌</div>
+        <p class="decision-text">
+            نشكركم على ثقتكم بجمعية حراء. نأسف لإبلاغكم بأنه لم نتمكن من قبول طلبكم في هذه الفترة نظراً لمحدودية الموارد
+            المتاحة وتجاوز الطاقة الاستيعابية.
+        </p>
+        {% else %}
+        <div class="status-badge">الحالة: قيد المعالجة ⌛</div>
+        <p class="decision-text">
+            هذا المستند يعتبر تأكيداً على استلام طلبكم وهو حالياً قيد الدراسة من طرف اللجنة المختصة.
+        </p>
+        {% endif %}
+    </div>
+
+    <div class="visitor-data-section">
+        <div class="section-header">بيانات مقدم الطلب</div>
+        <div class="data-grid">
+            <div class="data-item"><span class="data-label">الاسم الكامل:</span> {{ req.first_name }} {{ req.last_name
+                }}</div>
+            <div class="data-item"><span class="data-label">رقم البطاقة:</span> {{ req.national_id }}</div>
+            <div class="data-item"><span class="data-label">رقم الهاتف:</span> {{ req.phone }}</div>
+            <div class="data-item"><span class="data-label">البريد الإلكتروني:</span> {{ req.email }}</div>
+            <div class="data-item"><span class="data-label">نوع الطلب:</span> {{ req.request_type }}</div>
+            <div class="data-item"><span class="data-label">المدينة:</span> {{ req.city }}</div>
+            <div class="data-item"><span class="data-label">تاريخ التقديم:</span> {{ req.created_at.strftime('%Y-%m-%d')
+                }}</div>
+        </div>
+        {% if req.description %}
+        <div class="data-item" style="margin-top: 15px;">
+            <span class="data-label">ملاحظات الزائر:</span><br>
+            {{ req.description }}
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="pdf-footer">
+        <div class="signature-area">
+            <img src="{{ stamp_uri }}" class="stamp" alt="Stamp">
+            <p><strong>توقيع الإدارة والاختتام</strong></p>
+        </div>
+        <div class="qr-code-area">
+            <img src="data:image/png;base64,{{ qr_code }}" class="qr-code" alt="QR Code">
+            <p style="font-size: 8pt; color: #666; text-align: center;">تحقق من صحة الوثيقة</p>
+        </div>
+    </div>
+
+    <footer class="electronic-footer">
+        هذا المستند تم استخراجه إلكترونياً ولا يحتاج إلى توقيع خطي في حال وجود الختم الإلكتروني ورمز الاستجابة السريع.
+    </footer>
+</body>
+
+</html>

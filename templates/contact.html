@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% block title %}تواصل معنا - جمعية حراء{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="page-header">
+    <h1>📬 تواصل معنا</h1>
+    <p>نسعد بتواصلك معنا — لا تتردد في طرح أسئلتك أو اقتراحاتك</p>
+    <div class="breadcrumb">
+        <a href="{{ url_for('index') }}">الرئيسية</a>
+        <span>›</span>
+        <span>تواصل معنا</span>
+    </div>
+</div>
+
+<section style="padding: 80px 0;">
+    <div class="container">
+        <div class="contact-grid">
+            <!-- Contact Info -->
+            <div>
+                <h2 class="section-title animate-on-scroll" style="text-align: right; font-size: 2rem;">معلومات
+                    <span>الاتصال</span>
+                </h2>
+                <p style="color: var(--gray-500); margin-bottom: 30px; max-width: 500px;" class="animate-on-scroll">
+                    يمكنك التواصل معنا بأي من الطرق التالية. نحن هنا لمساعدتك والإجابة على استفساراتك.
+                </p>
+
+                <div class="contact-info animate-on-scroll">
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div>
+                            <h4>البريد الإلكتروني</h4>
+                            <p>as0716579@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div>
+                            <h4>الهاتف</h4>
+                            <p dir="ltr">0625622387</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div>
+                            <h4>العنوان</h4>
+                            <p>المغرب — الدار البيضاء</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">🕐</div>
+                        <div>
+                            <h4>أوقات العمل</h4>
+                            <p>الإثنين - الجمعة: 9:00 صباحاً - 5:00 مساءً</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="form-container animate-on-scroll" style="padding: 40px;">
+                <div class="form-header">
+                    <h2>✉️ أرسل رسالة</h2>
+                    <p>سنرد عليك في أقرب وقت ممكن</p>
+                </div>
+
+                <form method="POST" action="{{ url_for('contact') }}">
+                    <div class="form-group">
+                        <label class="form-label">الاسم الكامل <span class="required">*</span></label>
+                        <input type="text" name="name" class="form-control" placeholder="اسمك الكامل" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">البريد الإلكتروني <span class="required">*</span></label>
+                        <input type="email" name="email" class="form-control" placeholder="example@email.com" required
+                            dir="ltr" style="text-align: left;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">الموضوع <span class="required">*</span></label>
+                        <input type="text" name="subject" class="form-control" placeholder="موضوع الرسالة" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">الرسالة <span class="required">*</span></label>
+                        <textarea name="message" class="form-control" rows="5" placeholder="اكتب رسالتك هنا..."
+                            required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        📤 إرسال الرسالة
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Map -->
+        <div class="map-container animate-on-scroll" style="margin-top: 60px;">
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d212270.21420754!2d-7.685!3d33.5731!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda7cd4778aa113b%3A0xb06c1d84f310fd3!2sCasablanca!5e0!3m2!1sar!2sma!4v1704067200000"
+                allowfullscreen="" loading="lazy">
+            </iframe>
+        </div>
+    </div>
+</section>
+{% endblock %}

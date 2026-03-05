@@ -1,0 +1,589 @@
+{% extends 'admin_base.html' %}
+{% block title %}لوحة التحكم الاحترافية - جمعية حراء{% endblock %}
+
+{% block admin_content %}
+<div class="admin-dashboard">
+    <div class="dashboard-sidebar">
+        <div class="sidebar-header">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+            <h3>الإدارة</h3>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-label">الطلبات المرسلة من طرف الزوار</div>
+            <a href="{{ url_for('admin') }}" class="nav-item {{ 'active' if current_filter == 'all' }}">
+                <span class="icon">📊</span> الإحصائيات العامة
+            </a>
+            <a href="{{ url_for('admin', status='pending') }}"
+                class="nav-item {{ 'active' if current_filter == 'pending' }}">
+                <span class="icon">⌛</span> طلبات قيد الانتظار
+            </a>
+            <a href="{{ url_for('admin', status='accepted') }}"
+                class="nav-item {{ 'active' if current_filter == 'accepted' }}">
+                <span class="icon">✅</span> الطلبات المقبولة
+            </a>
+            <a href="{{ url_for('admin', status='rejected') }}"
+                class="nav-item {{ 'active' if current_filter == 'rejected' }}">
+                <span class="icon">❌</span> الطلبات المرفوضة
+            </a>
+            <div class="nav-divider"></div>
+            <a href="#messages-section" class="nav-item">
+                <span class="icon">📧</span> الرسائل الواردة
+            </a>
+            <a href="{{ url_for('logout') }}" class="nav-item logout">
+                <span class="icon">🚪</span> تسجيل الخروج
+            </a>
+        </nav>
+    </div>
+
+    <div class="dashboard-main">
+        <header class="dashboard-header">
+            <div class="header-search">
+                <input type="text" placeholder="بحث عن طلب بالرقم أو الاسم..." id="dashboardSearch">
+                <span class="search-icon">🔍</span>
+            </div>
+            <div class="header-user">
+                <span class="welcome">مرحباً، <strong>{{ current_user.username }}</strong></span>
+                <div class="user-avatar">AD</div>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card total">
+                    <div class="stat-info">
+                        <span class="stat-label">إجمالي الطلبات</span>
+                        <h2 class="stat-value">{{ stats.total }}</h2>
+                    </div>
+                    <div class="stat-icon">📈</div>
+                </div>
+                <div class="stat-card pending">
+                    <div class="stat-info">
+                        <span class="stat-label">قيد المراجعة</span>
+                        <h2 class="stat-value">{{ stats.pending }}</h2>
+                    </div>
+                    <div class="stat-icon">⏳</div>
+                </div>
+                <div class="stat-card accepted">
+                    <div class="stat-info">
+                        <span class="stat-label">طلبات مقبولة</span>
+                        <h2 class="stat-value">{{ stats.accepted }}</h2>
+                    </div>
+                    <div class="stat-icon">✔️</div>
+                </div>
+                <div class="stat-card messages">
+                    <div class="stat-info">
+                        <span class="stat-label">رسائل جديدة</span>
+                        <h2 class="stat-value">{{ stats.messages }}</h2>
+                    </div>
+                    <div class="stat-icon">💬</div>
+                </div>
+            </div>
+
+            <!-- Table Section -->
+            <div class="content-section">
+                <div class="section-header">
+                    <h3>📋 الطلبات المرسلة من طرف الزوار</h3>
+                    <div class="section-actions">
+                        <a href="{{ url_for('test_email_config') }}" class="btn btn-outline"
+                            style="background: #17a2b8; color: white; border: none;">✉️ تجربة البريد</a>
+                        <button class="btn btn-outline" onclick="window.print()">🖨️ طباعة التقرير</button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="premium-table">
+                        <thead>
+                            <tr>
+                                <th>المعرف</th>
+                                <th>اسم المستفيد</th>
+                                <th>نوع الطلب</th>
+                                <th>رقم الهاتف</th>
+                                <th>الحالة</th>
+                                <th>تاريخ القرار</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for req in requests %}
+                            <tr class="searchable-row">
+                                <td class="tracking-id">{{ req.tracking_id }}</td>
+                                <td class="full-name">{{ req.first_name }} {{ req.last_name }}</td>
+                                <td>{{ req.request_type }}</td>
+                                <td dir="ltr">{{ req.phone }}</td>
+                                <td>
+                                    <span class="status-pill status-{{ req.status }}">
+                                        {{ '🆕 جديد' if req.status == 'pending' else ('✅ مقبول' if req.status ==
+                                        'accepted' else '❌ مرفوض') }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {{ req.decision_date.strftime('%Y-%m-%d') if req.decision_date else '---' }}
+                                </td>
+                                <td>
+                                    <div class="row-actions">
+                                        {% if req.status != 'accepted' %}
+                                        <form method="POST"
+                                            action="{{ url_for('update_request_status', request_id=req.id) }}">
+                                            <input type="hidden" name="status" value="accepted">
+                                            <button type="submit" class="action-symbol accept" title="قبول">👍</button>
+                                        </form>
+                                        {% endif %}
+                                        {% if req.status != 'rejected' %}
+                                        <form method="POST"
+                                            action="{{ url_for('update_request_status', request_id=req.id) }}">
+                                            <input type="hidden" name="status" value="rejected">
+                                            <button type="submit" class="action-symbol reject" title="رفض">👎</button>
+                                        </form>
+                                        {% endif %}
+                                        <a href="{{ url_for('download_pdf', request_id=req.id) }}"
+                                            class="action-symbol pdf" title="PDF">📄</a>
+                                        <form method="POST" action="{{ url_for('delete_request', request_id=req.id) }}"
+                                            onsubmit="return confirm('حذف؟')">
+                                            <button type="submit" class="action-symbol delete" title="حذف">🗑️</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% if not requests %}
+                            <tr>
+                                <td colspan="8" class="empty-row">📭 لا توجد بيانات مطابقة</td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Messages Section -->
+            <div class="content-section" id="messages-section">
+                <div class="section-header">
+                    <h3>📨 تواصل الزوار</h3>
+                </div>
+                <div class="messages-grid">
+                    {% for msg in messages %}
+                    <div class="message-card">
+                        <div class="msg-header">
+                            <span class="msg-author">{{ msg.name }}</span>
+                            <span class="msg-date">{{ msg.created_at.strftime('%Y-%m-%d') }}</span>
+                        </div>
+                        <h4 class="msg-subject">{{ msg.subject }}</h4>
+                        <p class="msg-preview text-truncate">{{ msg.message }}</p>
+                        <div class="msg-footer">
+                            <span class="msg-email">{{ msg.email }}</span>
+                            <button class="btn-text" onclick="alert('{{ msg.message|escape }}')">قراءة الكل</button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Dashboard Layout */
+    .admin-dashboard {
+        display: flex;
+        min-height: 100vh;
+        background: #f0f4f8;
+        margin-top: -80px;
+        /* Offset original navbar if needed, but we usually want a clean slate */
+        position: relative;
+        z-index: 10;
+    }
+
+    /* Sidebar */
+    .dashboard-sidebar {
+        width: 280px;
+        background: #1a5e3a;
+        color: white;
+        padding: 30px 20px;
+        display: flex;
+        flex-direction: column;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+    }
+
+    .sidebar-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 40px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar-header img {
+        height: 40px;
+        filter: brightness(0) invert(1);
+    }
+
+    .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 15px;
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        border-radius: 10px;
+        transition: all 0.3s;
+    }
+
+    .nav-item:hover,
+    .nav-item.active {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+    }
+
+    .nav-item.logout {
+        margin-top: auto;
+        color: #ff8a80;
+    }
+
+    .nav-divider {
+        height: 1px;
+        background: rgba(255, 255, 255, 0.1);
+        margin: 15px 0;
+    }
+
+    .nav-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: rgba(255, 255, 255, 0.4);
+        margin: 20px 0 10px 15px;
+        font-weight: bold;
+    }
+
+    /* Main Area */
+    .dashboard-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .dashboard-header {
+        height: 80px;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 40px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .header-search {
+        position: relative;
+        width: 400px;
+    }
+
+    .header-search input {
+        width: 100%;
+        padding: 10px 40px 10px 15px;
+        border: 1px solid #e0e6ed;
+        border-radius: 25px;
+        background: #f8fafc;
+    }
+
+    .search-icon {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+    }
+
+    .header-user {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+        background: var(--green-primary);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+
+    /* Content Area */
+    .dashboard-content {
+        padding: 40px;
+        overflow-y: auto;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 25px;
+        margin-bottom: 40px;
+    }
+
+    .stat-card {
+        background: white;
+        padding: 25px;
+        border-radius: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+        transition: transform 0.3s;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .stat-label {
+        color: #64748b;
+        font-size: 0.9rem;
+    }
+
+    .stat-value {
+        font-size: 2rem;
+        color: #1e293b;
+        margin-top: 5px;
+    }
+
+    .stat-icon {
+        font-size: 2.5rem;
+        opacity: 0.8;
+    }
+
+    .stat-card.accepted {
+        border-right: 5px solid #4ade80;
+    }
+
+    .stat-card.pending {
+        border-right: 5px solid #fbbf24;
+    }
+
+    .stat-card.total {
+        border-right: 5px solid #2e7d32;
+    }
+
+    /* Sections */
+    .content-section {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        margin-bottom: 40px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+    .section-header h3 {
+        font-size: 1.4rem;
+        color: #1e293b;
+    }
+
+    /* Premium Table */
+    .premium-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .premium-table th {
+        text-align: right;
+        padding: 15px;
+        background: #f8fafc;
+        color: #64748b;
+        font-weight: 600;
+        font-size: 0.9rem;
+        border-bottom: 2px solid #edf2f7;
+    }
+
+    .premium-table td {
+        padding: 15px;
+        border-bottom: 1px solid #edf2f7;
+        color: #334155;
+    }
+
+    .premium-table tr:hover {
+        background: #fcfdfe;
+    }
+
+    .status-pill {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+    .status-pending {
+        background: #fffbeb;
+        color: #d97706;
+    }
+
+    .status-accepted {
+        background: #f0fdf4;
+        color: #16a34a;
+    }
+
+    .status-rejected {
+        background: #fef2f2;
+        color: #dc2626;
+    }
+
+    .email-cell {
+        max-width: 200px;
+        word-break: break-all;
+        font-size: 0.85rem;
+        color: #64748b;
+    }
+
+    .row-actions {
+        display: flex;
+        gap: 8px;
+    }
+
+    .action-symbol {
+        padding: 8px;
+        border-radius: 8px;
+        border: 1px solid #e2e8f0;
+        background: white;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
+    }
+
+    .action-symbol:hover {
+        background: #f1f5f9;
+        transform: scale(1.1);
+    }
+
+    .action-symbol.accept:hover {
+        color: #16a34a;
+        border-color: #16a34a;
+    }
+
+    .action-symbol.reject:hover {
+        color: #dc2626;
+        border-color: #dc2626;
+    }
+
+    /* Messages */
+    .messages-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .message-card {
+        background: #f8fafc;
+        border-radius: 15px;
+        padding: 20px;
+        border: 1px solid #e2e8f0;
+    }
+
+    .msg-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 0.8rem;
+        color: #94a3b8;
+    }
+
+    .msg-author {
+        font-weight: 700;
+        color: #1e293b;
+    }
+
+    .msg-subject {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+        color: var(--green-dark);
+    }
+
+    .msg-preview {
+        font-size: 0.9rem;
+        line-height: 1.5;
+        color: #64748b;
+        margin-bottom: 15px;
+    }
+
+    .msg-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid #e2e8f0;
+        padding-top: 10px;
+    }
+
+    .msg-email {
+        font-size: 0.8rem;
+        color: #94a3b8;
+    }
+
+    .btn-text {
+        background: none;
+        border: none;
+        color: var(--green-primary);
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+    @media (max-width: 1024px) {
+        .dashboard-sidebar {
+            width: 80px;
+            padding: 20px 10px;
+        }
+
+        .sidebar-header h3,
+        .nav-item span:not(.icon) {
+            display: none;
+        }
+
+        .nav-item {
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .admin-dashboard {
+            flex-direction: column;
+        }
+
+        .dashboard-sidebar {
+            width: 100%;
+            height: auto;
+            position: relative;
+        }
+
+        .header-search {
+            display: none;
+        }
+    }
+</style>
+
+<script>
+    document.getElementById('dashboardSearch').addEventListener('input', function (e) {
+        let term = e.target.value.toLowerCase();
+        let rows = document.querySelectorAll('.searchable-row');
+
+        rows.forEach(row => {
+            let text = row.innerText.toLowerCase();
+            row.style.display = text.includes(term) ? '' : 'none';
+        });
+    });
+</script>
+{% endblock %}

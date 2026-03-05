@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}لوحة التحكم{% endblock %}</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        /* Admin-Specific Base Styles */
+        :root {
+            --admin-green: #1a5e3a;
+            --admin-bg: #f0f4f8;
+            --admin-white: #ffffff;
+            --admin-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            --admin-border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--admin-bg);
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .admin-layout {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Re-implement or include dashboard specific styles here to ensure independence */
+            {
+            % block admin_styles %
+        }
+
+            {
+            % endblock %
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Flash Messages (Admin Version) -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-messages"
+        style="position: fixed; top: 20px; right: 20px; z-index: 9999; left: auto; width: auto;">
+        {% for category, message in messages %}
+        <div class="flash-msg {{ category }}" style="margin-bottom: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+            {% if category == 'success' %}✅{% else %}⚠️{% endif %}
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <div class="admin-layout">
+        {% block admin_content %}{% endblock %}
+    </div>
+
+    <!-- Optional JS -->
+    {% block admin_scripts %}{% endblock %}
+</body>
+
+</html>

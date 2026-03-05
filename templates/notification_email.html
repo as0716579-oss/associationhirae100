@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إشعار حالة الطلب - جمعية حراء</title>
+    <style>
+        :root {
+            --green-primary: #1a5e3a;
+            --green-secondary: #2d8a57;
+            --gold: #c5a059;
+            --white: #ffffff;
+            --gray-light: #f8f9fa;
+            --text-dark: #333333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            direction: rtl;
+            text-align: right;
+            color: var(--text-dark);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            background-color: var(--green-primary);
+            padding: 30px;
+            text-align: center;
+            border-bottom: 4px solid var(--gold);
+        }
+
+        .header img {
+            max-width: 120px;
+            margin-bottom: 15px;
+        }
+
+        .header h1 {
+            color: var(--white);
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .status-banner {
+            padding: 20px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--white);
+        }
+
+        .status-accepted {
+            background-color: #28a745;
+        }
+
+        .status-rejected {
+            background-color: #dc3545;
+        }
+
+        .content {
+            padding: 30px;
+            line-height: 1.6;
+        }
+
+        .content h2 {
+            color: var(--green-primary);
+            margin-top: 0;
+        }
+
+        .info-card {
+            background-color: var(--gray-light);
+            border: 1px solid #e0e0e0;
+            border-right: 5px solid var(--gold);
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+        }
+
+        .info-header {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--green-primary);
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+        .info-item {
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .info-label {
+            font-weight: bold;
+            color: var(--green-secondary);
+        }
+
+        .info-value {
+            color: var(--text-dark);
+        }
+
+        .footer {
+            background-color: var(--gray-light);
+            padding: 30px;
+            text-align: center;
+            font-size: 14px;
+            color: #777;
+            border-top: 1px solid #ddd;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            background-color: var(--green-primary);
+            color: var(--white) !important;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            margin-top: 25px;
+            box-shadow: 0 4px 10px rgba(26, 94, 58, 0.3);
+            transition: all 0.3s;
+        }
+
+        .stamp-placeholder {
+            text-align: left;
+            margin-top: -40px;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <!-- Using a placeholder for logo as it's an email -->
+            <div style="font-size: 40px; color: var(--gold); margin-bottom: 10px;">🌙</div>
+            <h1>جمعية حراء للأعمال الاجتماعية</h1>
+        </div>
+
+        {% if status == 'accepted' %}
+        <div class="status-banner status-accepted">
+            ✅ تم قبول طلبكم بنجاح
+        </div>
+        {% else %}
+        <div class="status-banner status-rejected">
+            ❌ نعتذر، تم رفض طلبكم
+        </div>
+        {% endif %}
+
+        <div class="content">
+            <h2 style="text-align: center;">إشعار رسمي</h2>
+            <p>مرحباً <strong>{{ name }} {{ last_name }}</strong>،</p>
+
+            {% if status == 'accepted' %}
+            <p>بعد دراسة طلبكم المسجل لدينا، يسعدنا إبلاغكم بأنه قد تم <strong>قبول</strong> طلب الاستفادة الخاص بكم من
+                برنامج مائدة الإفطار لرمضان الأبرك.</p>
+            <p>نرجو منكم الاحتفاظ بهذا الإشعار أو رقم التتبع للاستظهار به عند الضرورة.</p>
+            {% else %}
+            <p>نشكركم على اهتمامكم ببرامج جمعية حراء. نأسف لإبلاغكم بأنه، وبعد مراجعة الطلب، <strong>لم نتمكن من
+                    قبول</strong> طلبكم في هذه الفترة نظراً لمحدودية الطاقة الاستيعابية.</p>
+            {% endif %}
+
+            <div class="info-card">
+                <div class="info-header">تفاصيل الطلب</div>
+                <div class="info-item">
+                    <span class="info-label">رقم التتبع:</span>
+                    <span class="info-value" style="font-weight: bold; color: var(--green-primary);">{{ tracking_id
+                        }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">رقم البطاقة الوطنية:</span>
+                    <span class="info-value">{{ national_id }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">المدينة:</span>
+                    <span class="info-value">{{ city }}</span>
+                </div>
+            </div>
+
+            <div class="stamp-placeholder">
+                <div style="font-size: 60px;">🏮</div>
+                <div style="font-size: 12px; font-weight: bold; color: var(--green-primary); margin-right: 15px;">ختم
+                    الجمعية</div>
+            </div>
+
+            <p style="margin-top: 30px; text-align: center; border-top: 1px solid #eee; padding-top: 20px;">
+                نتمنى لكم شهراً كريماً مملوءاً بالخير والبركات.
+            </p>
+
+            <div style="text-align: center;">
+                <a href="{{ website_url }}" class="btn">العودة للموقع الرسمي</a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© {{ year }} جمعية حراء للأعمال الاجتماعية. جميع الحقوق محفوظة.</p>
+            <p>هذا البريد مرسل آلياً، يرجى عدم الرد عليه.</p>
+        </div>
+    </div>
+</body>
+
+</html>

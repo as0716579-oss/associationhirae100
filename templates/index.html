@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% block title %}جمعية حراء - الرئيسية{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero" id="hero">
+    <div class="hero-bg" style="background-image: url('{{ url_for('static', filename='images/hero-iftar.jpg') }}')">
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-pattern"></div>
+
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-badge">
+                🌙 رمضان كريم — موسم الخير والعطاء
+            </div>
+            <h1>
+                معاً نصنع <span>الفرق</span>
+                <br>في حياة المحتاجين
+            </h1>
+            <p>
+                جمعية حراء تعمل على تنظيم مائدة الإفطار خلال شهر رمضان المبارك لإطعام الأسر المحتاجة ونشر قيم التكافل
+                والتضامن الاجتماعي في ربوع المملكة المغربية.
+            </p>
+            <div class="hero-buttons">
+                <a href="{{ url_for('benefit_request') }}" class="btn btn-gold btn-lg">
+                    📝 طلب الاستفادة
+                </a>
+                <a href="{{ url_for('contact') }}" class="btn btn-outline btn-lg">
+                    📬 تواصل معنا
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="hero-stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item animate-on-scroll">
+                    <span class="stat-number" data-count="{{ stats.beneficiaries }}">0</span>
+                    <span class="stat-label">مستفيد</span>
+                </div>
+                <div class="stat-item animate-on-scroll">
+                    <span class="stat-number" data-count="{{ stats.volunteers }}">0</span>
+                    <span class="stat-label">متطوع</span>
+                </div>
+                <div class="stat-item animate-on-scroll">
+                    <span class="stat-number" data-count="{{ stats.meals }}">0</span>
+                    <span class="stat-label">وجبة مقدمة</span>
+                </div>
+                <div class="stat-item animate-on-scroll">
+                    <span class="stat-number" data-count="{{ stats.cities }}">0</span>
+                    <span class="stat-label">مدينة مشمولة</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Preview -->
+<section style="padding: 100px 0;">
+    <div class="container">
+        <h2 class="section-title animate-on-scroll">لماذا <span>جمعية حراء</span>؟</h2>
+        <p class="section-subtitle animate-on-scroll">نعمل بشغف وإخلاص لخدمة المجتمع وتقديم يد العون للمحتاجين</p>
+
+        <div class="about-grid">
+            <div class="card animate-on-scroll">
+                <div class="card-icon">🍽️</div>
+                <h3>مائدة الإفطار</h3>
+                <p>نوفر وجبات إفطار يومية خلال شهر رمضان للأسر المحتاجة في مختلف مدن المملكة، بطعام صحي ومتنوع.</p>
+            </div>
+            <div class="card animate-on-scroll">
+                <div class="card-icon">🤝</div>
+                <h3>التكافل الاجتماعي</h3>
+                <p>نسعى لتعزيز قيم التضامن والتكافل بين أفراد المجتمع من خلال برامج الدعم الاجتماعي المتنوعة.</p>
+            </div>
+            <div class="card animate-on-scroll">
+                <div class="card-icon">🛡️</div>
+                <h3>حماية البيانات</h3>
+                <p>نلتزم بحماية المعطيات الشخصية للمستفيدين وفقاً لقانون 09-08 المغربي لحماية المعطيات الشخصية.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Gallery Preview -->
+<section class="section-green" style="padding: 100px 0;">
+    <div class="container">
+        <h2 class="section-title animate-on-scroll">معرض <span>الصور</span></h2>
+        <p class="section-subtitle animate-on-scroll">لحظات من أنشطتنا وعطاءنا خلال شهر رمضان</p>
+
+        <div class="gallery-grid">
+            <div class="gallery-item animate-on-scroll">
+                <img src="{{ url_for('static', filename='images/gallery-1.jpg') }}" alt="توزيع المساعدات">
+                <span class="gallery-label">توزيع المساعدات الغذائية</span>
+            </div>
+            <div class="gallery-item animate-on-scroll">
+                <img src="{{ url_for('static', filename='images/gallery-2.jpg') }}" alt="تحضير الإفطار">
+                <span class="gallery-label">تحضير وجبات الإفطار</span>
+            </div>
+            <div class="gallery-item animate-on-scroll">
+                <img src="{{ url_for('static', filename='images/gallery-3.jpg') }}" alt="إفطار جماعي">
+                <span class="gallery-label">إفطار جماعي</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section style="padding: 100px 0; text-align: center;">
+    <div class="container">
+        <div class="animate-on-scroll">
+            <h2 class="section-title">هل أنت بحاجة <span>للمساعدة</span>؟</h2>
+            <p class="section-subtitle">يمكنك تقديم طلب الاستفادة من مائدة الإفطار عبر النموذج الإلكتروني بكل سرية وأمان
+            </p>
+            <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                <a href="{{ url_for('benefit_request') }}" class="btn btn-primary btn-lg">
+                    📝 تقديم طلب الاستفادة
+                </a>
+                <a href="{{ url_for('about') }}" class="btn btn-outline-green btn-lg">
+                    🕌 تعرف علينا
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section style="padding: 80px 0; background: var(--gray-100);">
+    <div class="container">
+        <h2 class="section-title animate-on-scroll">شهادات <span>المستفيدين</span></h2>
+        <p class="section-subtitle animate-on-scroll">كلمات من قلوب ممتنة</p>
+
+        <div class="about-grid" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="card animate-on-scroll" style="text-align: center;">
+                <div style="font-size: 3rem; margin-bottom: 16px;">💚</div>
+                <p
+                    style="font-family: var(--font-decorative); font-size: 1.1rem; font-style: italic; margin-bottom: 16px;">
+                    "شكراً لجمعية حراء على مساعدتها لأسرتي خلال شهر رمضان. كان عطاؤكم نوراً في حياتنا."
+                </p>
+                <strong style="color: var(--green-primary);">— أم محمد، الدار البيضاء</strong>
+            </div>
+            <div class="card animate-on-scroll" style="text-align: center;">
+                <div style="font-size: 3rem; margin-bottom: 16px;">🌟</div>
+                <p
+                    style="font-family: var(--font-decorative); font-size: 1.1rem; font-style: italic; margin-bottom: 16px;">
+                    "بفضل جمعية حراء، استطعنا أن نفطر بكرامة. جزاكم الله خيراً على كل ما تقدمونه."
+                </p>
+                <strong style="color: var(--green-primary);">— عبد الكريم، مراكش</strong>
+            </div>
+            <div class="card animate-on-scroll" style="text-align: center;">
+                <div style="font-size: 3rem; margin-bottom: 16px;">🤲</div>
+                <p
+                    style="font-family: var(--font-decorative); font-size: 1.1rem; font-style: italic; margin-bottom: 16px;">
+                    "تجربة تطوعية رائعة مع فريق جمعية حراء. العمل الجماعي والإخلاص يميزان هذه الجمعية."
+                </p>
+                <strong style="color: var(--green-primary);">— فاطمة، فاس</strong>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

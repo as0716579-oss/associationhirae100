@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}تم إرسال طلبك - جمعية حراء{% endblock %}
+
+{% block content %}
+<div class="success-container">
+    <div class="success-card animate-on-scroll">
+        <div class="success-icon">✅</div>
+        <h1>تم إرسال طلبك بنجاح!</h1>
+        <p>شكراً لثقتك بجمعية حراء. سيتم دراسة طلبك والتواصل معك في أقرب وقت ممكن.</p>
+
+        <div class="tracking-box">
+            <div class="label">رقم تتبع الطلب</div>
+            <div class="tracking-id">{{ tracking_id }}</div>
+        </div>
+
+        <p style="font-size: 0.9rem; color: var(--gray-500); margin-top: 16px;">
+            📌 يرجى الاحتفاظ برقم الطلب للمتابعة
+            <br>
+            📧 ستتلقى إشعاراً عبر بريدك الإلكتروني حال قبول طلبك أو رفضه
+        </p>
+
+        <div style="margin-top: 30px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+            <a href="{{ url_for('index') }}" class="btn btn-primary">
+                🏠 العودة للرئيسية
+            </a>
+            <a href="{{ url_for('benefit_request') }}" class="btn btn-outline-green">
+                📝 طلب جديد
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

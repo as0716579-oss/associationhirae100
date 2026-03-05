@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - نسخة العرض</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --green-primary: #2e7d32;
+            --green-dark: #1b5e20;
+            --green-light: #e8f5e9;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --white: #ffffff;
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: #f0f4f8;
+            color: var(--gray-800);
+        }
+
+        .admin-dashboard {
+            display: flex;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .dashboard-sidebar {
+            width: 280px;
+            background: var(--green-dark);
+            color: white;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header img {
+            height: 40px;
+            filter: brightness(0) invert(1);
+        }
+
+        .sidebar-header h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .nav-item.logout {
+            margin-top: auto;
+            color: #ff8a80;
+        }
+
+        .nav-item.logout:hover {
+            background: rgba(255, 138, 128, 0.1);
+        }
+
+        .nav-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 15px 0;
+        }
+
+        /* Main Content */
+        .dashboard-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .dashboard-header {
+            height: 80px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+
+        .header-search {
+            position: relative;
+            width: 400px;
+        }
+
+        .header-search input {
+            width: 100%;
+            padding: 12px 45px 12px 15px;
+            border: 1px solid var(--gray-200);
+            border-radius: 30px;
+            background: var(--gray-50);
+            font-family: inherit;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-400);
+        }
+
+        .header-user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            background: var(--green-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            box-shadow: 0 4px 10px rgba(46, 125, 50, 0.2);
+        }
+
+        /* Content Sections */
+        .dashboard-content {
+            padding: 40px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0, 0, 0, 0.02);
+        }
+
+        .stat-card.accepted {
+            border-right: 5px solid #4ade80;
+        }
+
+        .stat-card.pending {
+            border-right: 5px solid #fbbf24;
+        }
+
+        .stat-card.total {
+            border-right: 5px solid var(--green-primary);
+        }
+
+        .stat-label {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            color: var(--gray-800);
+            margin-top: 5px;
+            font-weight: 800;
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            opacity: 0.9;
+        }
+
+        .content-section {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .section-header h3 {
+            font-size: 1.5rem;
+            color: var(--gray-800);
+            font-weight: 800;
+        }
+
+        .premium-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .premium-table th {
+            text-align: right;
+            padding: 18px;
+            background: var(--gray-50);
+            color: var(--gray-500);
+            font-weight: 700;
+            font-size: 0.85rem;
+            border-bottom: 2px solid var(--gray-100);
+            text-transform: uppercase;
+        }
+
+        .premium-table td {
+            padding: 18px;
+            border-bottom: 1px solid var(--gray-100);
+            color: var(--gray-700);
+        }
+
+        .premium-table tr:hover td {
+            background: #fafbfc;
+        }
+
+        .status-pill {
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .status-pending {
+            background: #fff8e1;
+            color: #f57f17;
+        }
+
+        .status-accepted {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status-rejected {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .row-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-symbol {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            border: 1px solid var(--gray-200);
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .action-symbol:hover {
+            background: var(--gray-50);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .action-symbol.accept:hover {
+            border-color: #4caf50;
+            color: #4caf50;
+        }
+
+        .action-symbol.reject:hover {
+            border-color: #f44336;
+            color: #f44336;
+        }
+
+        .messages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .message-card {
+            background: var(--gray-50);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s;
+        }
+
+        .message-card:hover {
+            background: white;
+            border-color: var(--green-primary);
+            box-shadow: var(--shadow);
+        }
+
+        .msg-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 0.8rem;
+            color: var(--gray-500);
+        }
+
+        .msg-author {
+            font-weight: 800;
+            color: var(--gray-800);
+            font-size: 0.9rem;
+        }
+
+        .msg-subject {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            color: var(--green-dark);
+            font-weight: 700;
+        }
+
+        .msg-preview {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--gray-600);
+            margin-bottom: 20px;
+            height: 3.2em;
+            overflow: hidden;
+        }
+
+        .msg-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--gray-200);
+            padding-top: 15px;
+        }
+
+        .msg-email {
+            font-size: 0.8rem;
+            color: var(--gray-400);
+            font-family: monospace;
+        }
+
+        .btn-text {
+            background: none;
+            border: none;
+            color: var(--green-primary);
+            cursor: pointer;
+            font-weight: 700;
+            font-family: inherit;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-sidebar {
+                width: 90px;
+                padding: 25px 15px;
+            }
+
+            .sidebar-header h3,
+            .nav-item span:not(.icon),
+            .sidebar-header img {
+                display: none;
+            }
+
+            .sidebar-header {
+                justify-content: center;
+            }
+
+            .nav-item {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-dashboard {
+                flex-direction: column;
+            }
+
+            .dashboard-sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .header-search {
+                display: none;
+            }
+
+            .dashboard-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-dashboard">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar">
+            <div class="sidebar-header">
+                <h3>لوحة التحكم</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active"><span class="icon">📊</span> الإحصائيات</a>
+                <a href="#" class="nav-item"><span class="icon">⌛</span> الطلبات الجديدة</a>
+                <a href="#" class="nav-item"><span class="icon">✅</span> الطلبات المقبولة</a>
+                <a href="#" class="nav-item"><span class="icon">❌</span> الطلبات المرفوضة</a>
+                <div class="nav-divider"></div>
+                <a href="#" class="nav-item"><span class="icon">📧</span> الرسائل</a>
+                <a href="#" class="nav-item logout"><span class="icon">🚪</span> تسجيل الخروج</a>
+            </nav>
+        </aside>
+
+        <!-- Main -->
+        <main class="dashboard-main">
+            <header class="dashboard-header">
+                <div class="header-search">
+                    <input type="text" placeholder="بحث سريع عن الطلبات...">
+                    <span class="search-icon">🔍</span>
+                </div>
+                <div class="header-user">
+                    <span>مرحباً، <strong>المشرف</strong></span>
+                    <div class="user-avatar">AD</div>
+                </div>
+            </header>
+
+            <div class="dashboard-content">
+                <div class="stats-grid">
+                    <div class="stat-card total">
+                        <div class="stat-info"><span class="stat-label">إجمالي الطلبات</span>
+                            <h2 class="stat-value">1,250</h2>
+                        </div>
+                        <div class="stat-icon">📦</div>
+                    </div>
+                    <div class="stat-card pending">
+                        <div class="stat-info"><span class="stat-label">قيد المراجعة</span>
+                            <h2 class="stat-value">42</h2>
+                        </div>
+                        <div class="stat-icon">⏳</div>
+                    </div>
+                    <div class="stat-card accepted">
+                        <div class="stat-info"><span class="stat-label">طلبات مقبولة</span>
+                            <h2 class="stat-value">856</h2>
+                        </div>
+                        <div class="stat-icon">🎖️</div>
+                    </div>
+                </div>
+
+                <section class="content-section">
+                    <div class="section-header">
+                        <h3>📂 إدارة الطلبات</h3>
+                    </div>
+                    <div class="table-container" style="overflow-x: auto;">
+                        <table class="premium-table">
+                            <thead>
+                                <tr>
+                                    <th>المعرف</th>
+                                    <th>المستفيد</th>
+                                    <th>المدينة</th>
+                                    <th>الحالة</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>HIR-2026-X83</td>
+                                    <td>محمد العبدلاوي</td>
+                                    <td>تازة</td>
+                                    <td><span class="status-pill status-pending">⏳ قيد المراجعة</span></td>
+                                    <td>
+                                        <div class="row-actions">
+                                            <button class="action-symbol accept">✔️</button>
+                                            <button class="action-symbol reject">❌</button>
+                                            <button class="action-symbol">📄</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>HIR-2026-A12</td>
+                                    <td>فاطمة الزهراء</td>
+                                    <td>فاس</td>
+                                    <td><span class="status-pill status-accepted">✅ مقبول</span></td>
+                                    <td>
+                                        <div class="row-actions">
+                                            <button class="action-symbol">📄</button>
+                                            <button class="action-symbol">🗑️</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="content-section">
+                    <div class="section-header">
+                        <h3>📧 آخر التواصلات</h3>
+                    </div>
+                    <div class="messages-grid">
+                        <div class="message-card">
+                            <div class="msg-header"><span class="msg-author">ياسين العلمي</span><span>قبل ساعتين</span>
+                            </div>
+                            <h4 class="msg-subject">استفسار عن برنامج الإفطار</h4>
+                            <p class="msg-preview">السلام عليكم، أود الاستفسار عن كيفية المساهمة كمتطوع في مائدة
+                                الإفطار...</p>
+                            <div class="msg-footer"><span class="msg-email">yassine@example.com</span><button
+                                    class="btn-text">فتح</button></div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

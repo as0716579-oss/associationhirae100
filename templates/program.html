@@ -1,0 +1,213 @@
+{% extends 'base.html' %}
+{% block title %}برنامج مائدة الإفطار - جمعية حراء{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="page-header">
+    <h1>🍽️ برنامج مائدة الإفطار</h1>
+    <p>تفاصيل برنامج مائدة الإفطار الرمضانية وشروط الاستفادة</p>
+    <div class="breadcrumb">
+        <a href="{{ url_for('index') }}">الرئيسية</a>
+        <span>›</span>
+        <span>برنامج الإفطار</span>
+    </div>
+</div>
+
+<!-- Program Overview -->
+<section style="padding: 80px 0;">
+    <div class="container">
+        <div style="max-width: 800px; margin: 0 auto; text-align: center;" class="animate-on-scroll">
+            <h2 class="section-title">آلية <span>الاستفادة</span></h2>
+            <p
+                style="font-family: var(--font-decorative); font-size: 1.2rem; color: var(--gray-700); line-height: 2; margin-bottom: 40px;">
+                تنظم جمعية حراء برنامج مائدة الإفطار خلال شهر رمضان المبارك لمساعدة الأسر المحتاجة. يمكن للراغبين في
+                الاستفادة تقديم طلب عبر النموذج الإلكتروني، ليتم دراسته والرد عليه في أقرب وقت.
+            </p>
+        </div>
+
+        <!-- Steps -->
+        <div class="about-grid" style="margin-top: 40px;">
+            <div class="card animate-on-scroll" style="text-align: center;">
+                <div
+                    style="font-size: 3rem; margin-bottom: 16px; background: linear-gradient(135deg, var(--green-primary), var(--gold-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900;">
+                    01</div>
+                <h3>تقديم الطلب</h3>
+                <p>املأ نموذج طلب الاستفادة الإلكتروني بمعلوماتك الشخصية وبيانات أسرتك.</p>
+            </div>
+            <div class="card animate-on-scroll" style="text-align: center;">
+                <div
+                    style="font-size: 3rem; margin-bottom: 16px; background: linear-gradient(135deg, var(--green-primary), var(--gold-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900;">
+                    02</div>
+                <h3>دراسة الطلب</h3>
+                <p>يقوم فريق الجمعية بدراسة الطلب والتحقق من المعلومات المقدمة.</p>
+            </div>
+            <div class="card animate-on-scroll" style="text-align: center;">
+                <div
+                    style="font-size: 3rem; margin-bottom: 16px; background: linear-gradient(135deg, var(--green-primary), var(--gold-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900;">
+                    03</div>
+                <h3>الاستفادة</h3>
+                <p>في حال القبول، يتم إخطار المستفيد بموعد ومكان الاستلام.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Conditions -->
+<section class="section-green" style="padding: 80px 0;">
+    <div class="container">
+        <h2 class="section-title animate-on-scroll">الشروط و <span>المعايير</span></h2>
+        <p class="section-subtitle animate-on-scroll">معايير واضحة وشفافة لضمان وصول المساعدة لمستحقيها</p>
+
+        <div class="program-grid">
+            <div class="card card-glass animate-on-scroll">
+                <h3 style="color: var(--gold-primary); margin-bottom: 16px;">📋 شروط الاستفادة</h3>
+                <ul style="list-style: none;">
+                    <li
+                        style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px;">
+                        <span style="color: var(--gold-primary);">✦</span> أن يكون المتقدم مقيماً بإحدى المدن المشمولة
+                        بالبرنامج
+                    </li>
+                    <li
+                        style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px;">
+                        <span style="color: var(--gold-primary);">✦</span> تقديم معلومات صحيحة وكاملة في النموذج
+                    </li>
+                    <li
+                        style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px;">
+                        <span style="color: var(--gold-primary);">✦</span> الأولوية للأسر ذات الدخل المحدود والأرامل
+                        والأيتام
+                    </li>
+                    <li
+                        style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px;">
+                        <span style="color: var(--gold-primary);">✦</span> الموافقة على سياسة الخصوصية وشروط الاستخدام
+                    </li>
+                    <li style="padding: 10px 0; display: flex; align-items: center; gap: 12px;">
+                        <span style="color: var(--gold-primary);">✦</span> عدم الاستفادة من برنامج مماثل لدى جمعية أخرى
+                    </li>
+                </ul>
+            </div>
+            <div class="card card-glass animate-on-scroll">
+                <h3 style="color: var(--gold-primary); margin-bottom: 16px;">📄 الوثائق المطلوبة</h3>
+                <ul style="list-style: none;">
+                    <li
+                        style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px;">
+                        <span style="color: var(--gold-primary);">📌</span> نسخة من البطاقة الوطنية للتعريف
+                    </li>
+                    <li
+                        style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px;">
+                        <span style="color: var(--gold-primary);">📌</span> شهادة السكنى (اختياري)
+                    </li>
+                    <li
+                        style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px;">
+                        <span style="color: var(--gold-primary);">📌</span> شهادة الاحتياج من المقاطعة (اختياري)
+                    </li>
+                    <li style="padding: 10px 0; display: flex; align-items: center; gap: 12px;">
+                        <span style="color: var(--gold-primary);">📌</span> أي وثيقة تثبت الحالة الاجتماعية
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Cities Covered -->
+<section style="padding: 80px 0;">
+    <div class="container">
+        <h2 class="section-title animate-on-scroll">المدن <span>المشمولة</span></h2>
+        <p class="section-subtitle animate-on-scroll">نغطي حالياً 12 مدينة مغربية ونعمل على التوسع</p>
+
+        <div class="cities-grid animate-on-scroll">
+            <div class="city-badge">🏙️ الدار البيضاء</div>
+            <div class="city-badge">🏙️ الرباط</div>
+            <div class="city-badge">🏙️ مراكش</div>
+            <div class="city-badge">🏙️ فاس</div>
+            <div class="city-badge">🏙️ طنجة</div>
+            <div class="city-badge">🏙️ أكادير</div>
+            <div class="city-badge">🏙️ مكناس</div>
+            <div class="city-badge">🏙️ وجدة</div>
+            <div class="city-badge">🏙️ القنيطرة</div>
+            <div class="city-badge">🏙️ تطوان</div>
+            <div class="city-badge">🏙️ سلا</div>
+            <div class="city-badge">🏙️ المحمدية</div>
+        </div>
+    </div>
+</section>
+
+<!-- Distribution Schedule -->
+<section style="padding: 80px 0; background: var(--gray-100);">
+    <div class="container">
+        <h2 class="section-title animate-on-scroll">تواريخ <span>التوزيع</span></h2>
+        <p class="section-subtitle animate-on-scroll">برنامج التوزيع خلال شهر رمضان 1447هـ / 2026م</p>
+
+        <div class="table-container animate-on-scroll">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>الأسبوع</th>
+                        <th>التاريخ</th>
+                        <th>المدن</th>
+                        <th>النشاط</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>الأسبوع الأول</strong></td>
+                        <td>1 - 7 رمضان</td>
+                        <td>الدار البيضاء، الرباط، سلا</td>
+                        <td>توزيع سلات غذائية + إفطار جماعي</td>
+                    </tr>
+                    <tr>
+                        <td><strong>الأسبوع الثاني</strong></td>
+                        <td>8 - 14 رمضان</td>
+                        <td>مراكش، فاس، مكناس</td>
+                        <td>إفطار جماعي يومي + توزيع وجبات</td>
+                    </tr>
+                    <tr>
+                        <td><strong>الأسبوع الثالث</strong></td>
+                        <td>15 - 21 رمضان</td>
+                        <td>طنجة، تطوان، وجدة</td>
+                        <td>قافلة غذائية + دعم اجتماعي</td>
+                    </tr>
+                    <tr>
+                        <td><strong>الأسبوع الرابع</strong></td>
+                        <td>22 - 30 رمضان</td>
+                        <td>جميع المدن</td>
+                        <td>توزيع عام + كسوة العيد للأطفال</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- Gallery -->
+<section style="padding: 80px 0;">
+    <div class="container">
+        <h2 class="section-title animate-on-scroll">صور من <span>أنشطتنا</span></h2>
+        <p class="section-subtitle animate-on-scroll">لحظات من العطاء والتضامن</p>
+
+        <div class="gallery-grid">
+            <div class="gallery-item animate-on-scroll">
+                <img src="{{ url_for('static', filename='images/gallery-1.jpg') }}" alt="توزيع المساعدات">
+                <span class="gallery-label">توزيع المساعدات الغذائية</span>
+            </div>
+            <div class="gallery-item animate-on-scroll">
+                <img src="{{ url_for('static', filename='images/gallery-2.jpg') }}" alt="تحضير الإفطار">
+                <span class="gallery-label">تحضير وجبات الإفطار</span>
+            </div>
+            <div class="gallery-item animate-on-scroll">
+                <img src="{{ url_for('static', filename='images/gallery-3.jpg') }}" alt="إفطار جماعي">
+                <span class="gallery-label">إفطار جماعي</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="section-green" style="padding: 60px 0; text-align: center;">
+    <div class="container animate-on-scroll">
+        <h2 style="font-size: 2rem; margin-bottom: 16px;">هل تريد الاستفادة من البرنامج؟</h2>
+        <p style="color: rgba(255,255,255,0.7); margin-bottom: 24px;">قدم طلبك الآن عبر النموذج الإلكتروني</p>
+        <a href="{{ url_for('benefit_request') }}" class="btn btn-gold btn-lg">📝 تقديم طلب الاستفادة</a>
+    </div>
+</section>
+{% endblock %}

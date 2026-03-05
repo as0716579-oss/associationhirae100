@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="جمعية حراء - جمعية خيرية مغربية تعمل على تقديم مائدة الإفطار خلال شهر رمضان ودعم المحتاجين">
+    <meta name="keywords" content="جمعية حراء, مائدة الإفطار, رمضان, عمل خيري, المغرب">
+    <title>{% block title %}جمعية حراء{% endblock %}</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Amiri:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}" type="image/png">
+</head>
+
+<body>
+    <!-- Loading -->
+    <div class="loading-overlay" id="loader">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-messages">
+        {% for category, message in messages %}
+        <div class="flash-msg {{ category }}">
+            {% if category == 'success' %}✅{% else %}⚠️{% endif %}
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="{{ url_for('index') }}" class="nav-logo">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="شعار جمعية حراء">
+                <span>جمعية حراء</span>
+            </a>
+
+            <div class="nav-links" id="navLinks">
+                <a href="{{ url_for('index') }}" class="{{ 'active' if request.endpoint == 'index' }}">الرئيسية</a>
+                <a href="{{ url_for('about') }}" class="{{ 'active' if request.endpoint == 'about' }}">من نحن</a>
+                <a href="{{ url_for('program') }}" class="{{ 'active' if request.endpoint == 'program' }}">برنامج
+                    الإفطار</a>
+                <a href="{{ url_for('contact') }}" class="{{ 'active' if request.endpoint == 'contact' }}">تواصل
+                    معنا</a>
+                <a href="{{ url_for('privacy') }}" class="{{ 'active' if request.endpoint == 'privacy' }}">الخصوصية</a>
+
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('admin') }}" class="nav-admin-link">🔐 لوحة التحكم</a>
+                <a href="{{ url_for('logout') }}" class="nav-logout-link">🚪 خروج</a>
+                {% endif %}
+
+                <a href="{{ url_for('benefit_request') }}" class="nav-cta">📝 طلب الاستفادة</a>
+            </div>
+
+            <div class="mobile-toggle" id="mobileToggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="جمعية حراء">
+                    <p>جمعية حراء هي جمعية خيرية مغربية تهدف إلى مساعدة الأسر المحتاجة من خلال تنظيم مائدة الإفطار خلال
+                        شهر رمضان المبارك وتقديم الدعم الاجتماعي للفئات الهشة.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">📘</a>
+                        <a href="#" class="social-link">📸</a>
+                        <a href="#" class="social-link">🐦</a>
+                        <a href="#" class="social-link">📺</a>
+                    </div>
+                </div>
+
+                <div class="footer-links">
+                    <h4>روابط سريعة</h4>
+                    <a href="{{ url_for('index') }}">الرئيسية</a>
+                    <a href="{{ url_for('about') }}">من نحن</a>
+                    <a href="{{ url_for('program') }}">برنامج الإفطار</a>
+                    <a href="{{ url_for('benefit_request') }}">طلب الاستفادة</a>
+                </div>
+
+                <div class="footer-links">
+                    <h4>معلومات</h4>
+                    <a href="{{ url_for('privacy') }}">سياسة الخصوصية</a>
+                    <a href="{{ url_for('contact') }}">تواصل معنا</a>
+                    <a href="#">الشروط والأحكام</a>
+                    <a href="{{ url_for('login') }}" style="opacity: 0.3; font-size: 0.7rem;">إدارة</a>
+                </div>
+
+                <div class="footer-contact">
+                    <h4>معلومات الاتصال</h4>
+                    <p>📧 as0716579@gmail.com</p>
+                    <p>📞 0625622387</p>
+                    <p>📍 المغرب</p>
+                    <p>🕐 الإثنين - الجمعة: 9:00 - 17:00</p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© {{ 2026 }} جمعية حراء. جميع الحقوق محفوظة. | صُنع بـ ❤️ للعمل الخيري</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>

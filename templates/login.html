@@ -1,0 +1,176 @@
+{% extends 'admin_base.html' %}
+{% block title %}تسجيل الدخول - لوحة التحكم{% endblock %}
+
+{% block admin_content %}
+<div class="login-page">
+    <div class="container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-logo">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Hiraa Logo">
+                </div>
+                <h2>تسجيل الدخول</h2>
+                <p>لوحة تحكم جمعية حراء</p>
+            </div>
+
+            <form method="POST" action="{{ url_for('login') }}" class="login-form">
+                <div class="form-group">
+                    <label for="username">اسم المستخدم</label>
+                    <div class="input-with-icon">
+                        <span class="icon">👤</span>
+                        <input type="text" id="username" name="username" placeholder="ادخل اسم المستخدم" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">كلمة المرور</label>
+                    <div class="input-with-icon">
+                        <span class="icon">🔒</span>
+                        <input type="password" id="password" name="password" placeholder="ادخل كلمة المرور" required>
+                    </div>
+                </div>
+
+                <div class="form-options"
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                    <label class="checkbox-container" style="margin-bottom: 0;">
+                        <input type="checkbox" name="remember">
+                        <span class="checkmark"></span>
+                        تذكرني
+                    </label>
+                    <a href="{{ url_for('forgot_password') }}"
+                        style="color: var(--green-primary); text-decoration: none; font-size: 0.9rem; font-weight: 500;">نسيت
+                        كلمة المرور؟</a>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">دخول</button>
+            </form>
+
+            <div class="login-footer">
+                <p>&copy; 2026 جمعية حراء للحلول الاجتماعية - تيك تيك</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Login Page Specific Styles */
+    .login-page {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #f8fcf9 0%, #e8f5e9 100%);
+        padding: 40px 0;
+    }
+
+    .login-card {
+        max-width: 450px;
+        width: 100%;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 15px 35px rgba(26, 94, 58, 0.1);
+        border: 1px solid rgba(26, 94, 58, 0.1);
+    }
+
+    .login-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .login-logo img {
+        height: 80px;
+        margin-bottom: 15px;
+    }
+
+    .login-header h2 {
+        color: var(--green-dark);
+        font-size: 1.8rem;
+        margin-bottom: 5px;
+    }
+
+    .login-header p {
+        color: var(--gray-600);
+    }
+
+    .login-form .form-group {
+        margin-bottom: 20px;
+    }
+
+    .login-form label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--gray-700);
+        font-weight: 500;
+    }
+
+    .input-with-icon {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .input-with-icon .icon {
+        position: absolute;
+        right: 15px;
+        color: var(--gray-400);
+    }
+
+    .input-with-icon input {
+        width: 100%;
+        padding: 12px 45px 12px 15px;
+        border: 2px solid #eef2f0;
+        border-radius: 12px;
+        font-family: inherit;
+        transition: all 0.3s ease;
+        background: white;
+    }
+
+    .input-with-icon input:focus {
+        border-color: var(--green-primary);
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.1);
+    }
+
+    .form-options {
+        margin-bottom: 25px;
+    }
+
+    .checkbox-container {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        font-size: 0.9rem;
+        color: var(--gray-600);
+        user-select: none;
+    }
+
+    .checkbox-container input {
+        margin-left: 10px;
+        width: 18px;
+        height: 18px;
+    }
+
+    .btn-block {
+        width: 100%;
+        padding: 14px;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+    .login-footer {
+        text-align: center;
+        margin-top: 30px;
+        font-size: 0.8rem;
+        color: var(--gray-400);
+    }
+
+    @media (max-width: 500px) {
+        .login-card {
+            padding: 30px 20px;
+        }
+    }
+</style>
+{% endblock %}

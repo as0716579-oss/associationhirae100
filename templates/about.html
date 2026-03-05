@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% block title %}من نحن - جمعية حراء{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="page-header">
+    <h1>🕌 من نحن</h1>
+    <p>تعرف على جمعية حراء ورسالتها النبيلة</p>
+    <div class="breadcrumb">
+        <a href="{{ url_for('index') }}">الرئيسية</a>
+        <span>›</span>
+        <span>من نحن</span>
+    </div>
+</div>
+
+<!-- About Section -->
+<section style="padding: 80px 0;">
+    <div class="container">
+        <div style="max-width: 800px; margin: 0 auto; text-align: center;" class="animate-on-scroll">
+            <h2 class="section-title">رسالة <span>جمعية حراء</span></h2>
+            <p
+                style="font-family: var(--font-decorative); font-size: 1.3rem; color: var(--gray-700); line-height: 2; margin-bottom: 40px;">
+                جمعية حراء هي جمعية خيرية مغربية تأسست بهدف خدمة المجتمع وتقديم يد العون للأسر المحتاجة. نعمل بكل إخلاص
+                وتفانٍ على تعزيز قيم التكافل الاجتماعي والتضامن الإنساني، مستلهمين من القيم الإسلامية السمحة التي تحث
+                على العطاء والبذل.
+            </p>
+        </div>
+
+        <!-- Timeline -->
+        <h2 class="section-title animate-on-scroll" style="margin-top: 60px;">مسيرة <span>النجاح</span></h2>
+        <p class="section-subtitle animate-on-scroll">محطات بارزة في تاريخ الجمعية</p>
+
+        <div class="timeline">
+            <div class="timeline-item animate-on-scroll">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">2018</span>
+                    <h4>تأسيس الجمعية</h4>
+                    <p>انطلاق جمعية حراء بمبادرة من مجموعة من الشباب المتطوعين الراغبين في خدمة المجتمع.</p>
+                </div>
+            </div>
+            <div class="timeline-item animate-on-scroll">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">2019</span>
+                    <h4>أول مائدة إفطار</h4>
+                    <p>تنظيم أول مائدة إفطار رمضانية استفاد منها أكثر من 200 شخص في مدينة واحدة.</p>
+                </div>
+            </div>
+            <div class="timeline-item animate-on-scroll">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">2021</span>
+                    <h4>التوسع الجغرافي</h4>
+                    <p>توسيع نطاق العمل ليشمل 5 مدن مغربية مع فريق يضم أكثر من 50 متطوعاً.</p>
+                </div>
+            </div>
+            <div class="timeline-item animate-on-scroll">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">2023</span>
+                    <h4>إطلاق المنصة الرقمية</h4>
+                    <p>إطلاق الموقع الإلكتروني لتسهيل استقبال طلبات الاستفادة وتوثيق الأنشطة.</p>
+                </div>
+            </div>
+            <div class="timeline-item animate-on-scroll">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">2026</span>
+                    <h4>12 مدينة — 1250+ مستفيد</h4>
+                    <p>الوصول إلى 12 مدينة مغربية وخدمة أكثر من 1250 أسرة مع فريق من 85 متطوعاً.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mission & Vision -->
+<section class="section-green" style="padding: 80px 0;">
+    <div class="container">
+        <h2 class="section-title animate-on-scroll">رؤيتنا و <span>أهدافنا</span></h2>
+        <p class="section-subtitle animate-on-scroll">نسعى لبناء مجتمع متكافل ومتضامن</p>
+
+        <div class="about-grid">
+            <div class="card card-glass animate-on-scroll">
+                <div class="card-icon">🎯</div>
+                <h3>رسالتنا</h3>
+                <p>المساهمة في تحقيق التكافل الاجتماعي من خلال تقديم الدعم الغذائي والاجتماعي للأسر المحتاجة خلال شهر
+                    رمضان وطوال السنة.</p>
+            </div>
+            <div class="card card-glass animate-on-scroll">
+                <div class="card-icon">👁️</div>
+                <h3>رؤيتنا</h3>
+                <p>أن نكون مرجعاً في العمل الخيري المنظم والشفاف في المغرب، ونموذجاً يحتذى به في خدمة المجتمع.</p>
+            </div>
+            <div class="card card-glass animate-on-scroll">
+                <div class="card-icon">💎</div>
+                <h3>قيمنا</h3>
+                <p>الشفافية، الإخلاص، التطوع، احترام كرامة الإنسان، حماية الخصوصية، والعمل الجماعي المؤسساتي.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Work Areas -->
+<section style="padding: 80px 0;">
+    <div class="container">
+        <h2 class="section-title animate-on-scroll">مجالات <span>عملنا</span></h2>
+        <p class="section-subtitle animate-on-scroll">نشاطات متنوعة لخدمة المجتمع</p>
+
+        <div class="program-grid">
+            <div class="program-card animate-on-scroll">
+                <div class="program-card-header">
+                    <h3>🍽️ مائدة الإفطار الرمضانية</h3>
+                </div>
+                <div class="program-card-body">
+                    <ul>
+                        <li><span class="icon">✅</span> توفير وجبات إفطار يومية للمحتاجين</li>
+                        <li><span class="icon">✅</span> توزيع سلات غذائية على الأسر</li>
+                        <li><span class="icon">✅</span> إفطار جماعي في المساجد والأحياء</li>
+                        <li><span class="icon">✅</span> قوافل غذائية للمناطق النائية</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="program-card animate-on-scroll">
+                <div class="program-card-header">
+                    <h3>🤝 الدعم الاجتماعي</h3>
+                </div>
+                <div class="program-card-body">
+                    <ul>
+                        <li><span class="icon">✅</span> مساعدات مالية للأسر المعوزة</li>
+                        <li><span class="icon">✅</span> دعم التمدرس والأدوات المدرسية</li>
+                        <li><span class="icon">✅</span> كسوة العيد للأطفال المحتاجين</li>
+                        <li><span class="icon">✅</span> حملات طبية وتوعوية</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team -->
+<section style="padding: 80px 0; background: var(--gray-100);">
+    <div class="container">
+        <h2 class="section-title animate-on-scroll">فريق <span>العمل</span></h2>
+        <p class="section-subtitle animate-on-scroll">خلف كل نجاح فريق متميز</p>
+
+        <div class="team-grid">
+            <div class="team-card animate-on-scroll">
+                <div class="team-avatar">👤</div>
+                <h4>محمد العلوي</h4>
+                <p>رئيس الجمعية</p>
+            </div>
+            <div class="team-card animate-on-scroll">
+                <div class="team-avatar">👤</div>
+                <h4>فاطمة الزهراء</h4>
+                <p>نائبة الرئيس</p>
+            </div>
+            <div class="team-card animate-on-scroll">
+                <div class="team-avatar">👤</div>
+                <h4>أحمد بنعلي</h4>
+                <p>أمين المال</p>
+            </div>
+            <div class="team-card animate-on-scroll">
+                <div class="team-avatar">👤</div>
+                <h4>خديجة الإدريسي</h4>
+                <p>مسؤولة التواصل</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
